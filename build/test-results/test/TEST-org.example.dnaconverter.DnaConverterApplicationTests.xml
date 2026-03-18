@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.dnaconverter.DnaConverterApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-03-18T12:36:11.967Z" hostname="MacBook-Air-Valeria.local" time="3.829">
+  <properties/>
+  <testcase name="contextLoads()" classname="org.example.dnaconverter.DnaConverterApplicationTests" time="0.882"/>
+  <system-out><![CDATA[13:36:12.194 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [org.example.dnaconverter.DnaConverterApplicationTests]: DnaConverterApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:36:12.381 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.example.dnaconverter.DnaConverterApplication for test class org.example.dnaconverter.DnaConverterApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.3)
+
+13:36:12 INFO  o.e.d.DnaConverterApplicationTests - Starting DnaConverterApplicationTests using Java 17.0.1 with PID 37520 (started by admin in /Users/admin/Documents/dna-converter)
+13:36:12 INFO  o.e.d.DnaConverterApplicationTests - No active profile set, falling back to 1 default profile: "default"
+13:36:14 INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+13:36:14 INFO  o.e.d.DnaConverterApplicationTests - Started DnaConverterApplicationTests in 2.332 seconds (process running for 4.347)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

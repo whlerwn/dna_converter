@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA VCF Converter</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f4f7fb, #e8eef8);
+            color: #1f2937;
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+            padding: 36px;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 34px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #5b6472;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .section {
+            margin-top: 28px;
+            padding: 22px;
+            border-radius: 16px;
+            background: #f9fbfe;
+            border: 1px solid #e6edf7;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .section p {
+            margin: 0;
+            line-height: 1.65;
+            color: #4b5563;
+        }
+
+        .upload-box {
+            margin-top: 28px;
+            padding: 28px;
+            border: 2px dashed #c9d6ea;
+            border-radius: 18px;
+            text-align: center;
+            background: #f8fbff;
+        }
+
+        input[type="file"] {
+            margin: 16px 0;
+            font-size: 15px;
+        }
+
+        button {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button:disabled {
+            background: #9bbcf8;
+            cursor: not-allowed;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .hint {
+            margin-top: 14px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .status {
+            display: none;
+            margin-top: 20px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .status.info {
+            display: block;
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .status.success {
+            display: block;
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status.error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .code-block {
+            margin-top: 14px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #111827;
+            color: #e5e7eb;
+            overflow-x: auto;
+            font-family: Menlo, Monaco, Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="card">
+        <h1>DNA VCF to TXT Converter</h1>
+        <p class="subtitle">
+            A simple Spring Boot application that converts raw DNA VCF files into TXT format
+            compatible with genealogy tools.
+        </p>
+
+        <div class="section">
+            <h2>What does this app do?</h2>
+            <p>
+                This tool reads a VCF file, parses genotype records, converts them into the required
+                TXT output format, and downloads the result automatically to your default browser downloads folder.
+            </p>
+        </div>
+
+        <div class="upload-box">
+            <h2>Upload your VCF file</h2>
+            <input type="file" id="fileInput" accept=".vcf" />
+            <div class="file-name" id="fileName"></div>
+
+            <button id="convertBtn">Upload and Convert</button>
+
+            <div class="hint">
+                Supported format: <strong>.vcf</strong> | Maximum file size: <strong>50 MB</strong>
+            </div>
+
+            <div id="status" class="status"></div>
+        </div>
+
+        <div class="footer">
+            After successful conversion, the TXT file will be downloaded automatically.
+        </div>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    const convertBtn = document.getElementById('convertBtn');
+    const statusBox = document.getElementById('status');
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            fileName.textContent = `Selected file: ${fileInput.files[0].name}`;
+        } else {
+            fileName.textContent = '';
+        }
+        resetStatus();
+    });
+
+    convertBtn.addEventListener('click', async () => {
+        const file = fileInput.files[0];
+
+        if (!file) {
+            showStatus('Please select a .vcf file first.', 'error');
+            return;
+        }
+
+        if (!file.name.toLowerCase().endsWith('.vcf')) {
+            showStatus('Only .vcf files are supported.', 'error');
+            return;
+        }
+
+        convertBtn.disabled = true;
+        showStatus('Conversion in progress...', 'info');
+
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('/api/v1/vcf/convert', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                let errorMessage = 'Conversion failed.';
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.detail || errorData.title || errorMessage;
+                } catch (_) {
+                }
+                throw new Error(errorMessage);
+            }
+
+            const blob = await response.blob();
+
+            let fileNameFromHeader = `${file.name.replace(/\.vcf$/i, '')}_converted.txt`;
+            const contentDisposition = response.headers.get('Content-Disposition');
+
+            if (contentDisposition) {
+                const match = contentDisposition.match(/filename="(.+?)"/);
+                if (match && match[1]) {
+                    fileNameFromHeader = match[1];
+                }
+            }
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileNameFromHeader;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
+            showStatus('Conversion completed successfully. Download started.', 'success');
+        } catch (error) {
+            showStatus(error.message || 'Unexpected error during conversion.', 'error');
+        } finally {
+            convertBtn.disabled = false;
+        }
+    });
+
+    function showStatus(message, type) {
+        statusBox.textContent = message;
+        statusBox.className = `status ${type}`;
+    }
+
+    function resetStatus() {
+        statusBox.textContent = '';
+        statusBox.className = 'status';
+    }
+</script>
+</body>
+</html>
