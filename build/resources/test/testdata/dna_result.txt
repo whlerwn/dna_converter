@@ -1,6 +1,0 @@
-# rsid	chromosome	position	genotype
-1_123	1	123	AA
-rs2	2	456	CT
-rsX	X	789	GA
-MT_1011	MT	1011	CC
-rs3	3	1213	NN

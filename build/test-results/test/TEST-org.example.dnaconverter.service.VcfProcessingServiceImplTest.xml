@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.dnaconverter.service.VcfProcessingServiceImplTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-03-18T12:36:15.826Z" hostname="MacBook-Air-Valeria.local" time="0.503">
-  <properties/>
-  <testcase name="testProcessPipeline()" classname="org.example.dnaconverter.service.VcfProcessingServiceImplTest" time="0.503"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

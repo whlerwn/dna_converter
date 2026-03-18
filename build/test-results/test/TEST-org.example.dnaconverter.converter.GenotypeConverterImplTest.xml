@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.dnaconverter.converter.GenotypeConverterImplTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-03-18T12:36:15.805Z" hostname="MacBook-Air-Valeria.local" time="0.01">
-  <properties/>
-  <testcase name="testConvertUnknownId()" classname="org.example.dnaconverter.converter.GenotypeConverterImplTest" time="0.005"/>
-  <testcase name="testUnknownGenotype()" classname="org.example.dnaconverter.converter.GenotypeConverterImplTest" time="0.001"/>
-  <testcase name="testConvertRefAltGenotypes()" classname="org.example.dnaconverter.converter.GenotypeConverterImplTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

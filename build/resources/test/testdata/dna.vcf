@@ -1,6 +1,0 @@
-#CHROM POS ID REF ALT QUAL FILTER INFO FORMAT cxrp57
-chr1    123     .       A   G   .   .   .   GT  0|0
-chr2    456     rs2     C   T   .   .   .   GT  0|1
-chrX    789     rsX     G   A   .   .   .   GT  1|0
-chrM    1011    .       T   C   .   .   .   GT  1|1
-chr3    1213    rs3     A   C   .   .   .   GT  2|2
